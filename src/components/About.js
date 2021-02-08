@@ -1,14 +1,11 @@
-import React from 'react'
-
-import Container from '@material-ui/core/Container';
+import React from "react";
+import Container from "@material-ui/core/Container";
 
 function AboutPage() {
-
-  return <div>
-
-         <Container > 
- <h2>O NAS</h2>
-   </Container>
-  </div>
+  return (
+      <Container style={{flex: "1",}}>
+        <h2>O NAS</h2>
+      </Container>
+  );
 }
 export default AboutPage;
