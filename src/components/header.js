@@ -1,25 +1,8 @@
 import React from "react";
-import { Toolbar, Link, AppBar } from "@material-ui/core";
+import { Toolbar, AppBar, Typography, Hidden, IconButton } from "@material-ui/core";
 import { Link as LinkURL } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  urlStyle: {
-    color: "#eeeeee",
-    textDecoration: "none",
-    textTransform: "uppercase",
-    fontFamily: "'Playfair Display', serif", 
-     },
-
-  toolbar: {
-    backgroundColor: "#616161",
-    display: "flex",
-    justifyContent: "space-around",
-  },
-}));
+import useStyles from "./styles/header_style";
+import MenuIcon from '@material-ui/icons/Menu';
 
 function Header() {
   const classes = useStyles();
@@ -35,25 +18,30 @@ function Header() {
   ];
 
   return (
-      <AppBar position="static">
-        <Toolbar className={classes.toolbar}>
+    <AppBar position="static" className={classes.appbar}>
+      <Toolbar className={classes.toolbar}>
+        <Hidden mdUp>
+          <Typography>СМИ Культурный Город</Typography>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
+
+        <Hidden smDown>
           {sections.map((section) => (
-            <Link
-              className={classes.link}
-              color="inherit"
-              noWrap
-              key={section.title}
-              variant="body2"
-              href={section.url}
-              // className={classes.toolbarLink}
-            >
               <LinkURL className={classes.urlStyle} to={section.url}>
                 {section.title}
               </LinkURL>
-            </Link>
+       
           ))}
-        </Toolbar>
-      </AppBar>
+        </Hidden>
+      </Toolbar>
+    </AppBar>
   );
 }
 export default Header;

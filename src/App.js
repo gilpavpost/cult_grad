@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {Paper, Container, Typography} from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
+import Television from "./components/tv";
+import useStyles from "./components/styles/main_styles";
 
 const Cosmic = require("cosmicjs");
 const api = Cosmic();
@@ -10,44 +12,28 @@ const bucket = api.bucket({
 });
 
 function App() {
+  const classes = useStyles();
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchBlog = async () => {
       const data = await bucket.getObjects({
         type: "videos",
-        props: "title,content",
+        props: "title,content,metadata",
         limit: 1,
       });
       setData(data);
     };
     fetchBlog();
   }, []);
-  if (!data) return <div>Loading...</div>;
-  const posts = data.objects;
-  return (
 
-      <Container style={{ flex: "1",
-       }}>
-         <Typography>Новостной портал: СМИ "Культурный Город"</Typography>
-        {posts ? (
-          posts.map((post) => (
-            <Paper >
-              <div key={post.title}>
-                <div
-                  className="doc-preview"
-                  dangerouslySetInnerHTML={{
-                    __html: post.content,
-                  }}
-                />
-           
-              </div>
-            </Paper>
-          ))
-        ) : (
-          <h2>NO POSTS</h2>
-        )}
-      </Container>
- );
+  if (!data) return <div>Loading...</div>;
+
+  return (
+    <Container className={classes.container}>
+      <Typography className={classes.text_big}>Новостной портал СМИ "Культурный Город" </Typography>
+      <Television element={data} />
+    </Container>
+  );
 }
 export default App;
